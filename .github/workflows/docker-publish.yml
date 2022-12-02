@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: hub.docker.com
-  IMAGE_NAME: delivery-todo-example
+  IMAGE_NAME: jl4318/delivery-todo-example
 
 
 jobs:
