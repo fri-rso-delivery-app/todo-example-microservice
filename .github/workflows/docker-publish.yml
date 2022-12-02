@@ -14,6 +14,7 @@ on:
     branches: [ "main" ]
 
 env:
+  REGISTRY: hub.docker.com
   IMAGE_NAME: delivery-todo-example
 
 
