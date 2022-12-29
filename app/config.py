@@ -4,6 +4,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     app_title: str = 'TODO microservice'
     app_name: str = 'todo'
+    
     api_root_path: str = ''
     api_http_port: int = 8888
     api_db_url: str = 'mongodb://root:example@localhost:27017/'
