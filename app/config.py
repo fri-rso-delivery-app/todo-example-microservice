@@ -8,14 +8,14 @@ class Settings(BaseSettings):
     api_db_name: str = 'todo_service'
 
     # auth settings
-    api_jwt_login_url: str = 'http://localhost:8001/jwt/token'
+    api_login_url: str = 'http://localhost:8001/jwt/token'
     # to get a viable secret run:
     # openssl rand -hex 32
     api_secret_key: str = 'SECRET_REPLACE_ME'
     api_jwt_algorithm: str = 'HS256'
 
     class Config:
-        env_file = ".env"
+        env_file = '.env'
 
 
 @lru_cache()
