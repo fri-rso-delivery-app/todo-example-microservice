@@ -9,7 +9,7 @@ from app.config import Settings, get_settings
 
 
 # auth scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=config.jwt_login_url)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=get_settings().api_jwt_login_url)
 
 
 async def get_current_user(
