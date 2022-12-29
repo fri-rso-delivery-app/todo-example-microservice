@@ -16,15 +16,6 @@ class Settings(BaseSettings):
     api_secret_key: str = 'SECRET_REPLACE_ME'
     api_jwt_algorithm: str = 'HS256'
 
-    class Config:
-        env_file = '.env'
-
-        @classmethod
-        def parse_env_var(cls, field_name: str, raw_val: str):
-            if field_name == 'api_servers':
-                return raw_val.split(',')
-            return cls.json_loads(raw_val)
-
 
 @lru_cache()
 def get_settings() -> Settings:
