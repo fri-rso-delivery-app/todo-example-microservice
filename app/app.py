@@ -9,6 +9,10 @@ settings: Settings = get_settings()
 app = FastAPI(
     root_path=settings.api_root_path,
     title='TODO microservice',
+    servers=[
+        {'url': server}
+        for server in settings.api_servers
+    ]
 )
 
 allowed_origins = ([

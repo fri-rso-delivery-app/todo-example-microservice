@@ -2,6 +2,8 @@ from pydantic import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
+    api_servers: list[str] = []
+
     api_root_path: str = ''
     api_http_port: int = 8888
     api_db_url: str = 'mongodb://root:example@localhost:27017/'
@@ -16,6 +18,12 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = '.env'
+
+        @classmethod
+        def parse_env_var(cls, field_name: str, raw_val: str):
+            if field_name == 'api_servers':
+                return raw_val.split(',')
+            return cls.json_loads(raw_val)
 
 
 @lru_cache()
