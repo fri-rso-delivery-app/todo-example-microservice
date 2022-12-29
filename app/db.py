@@ -1,9 +1,9 @@
 import motor.motor_asyncio
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from app import config
+from app.config import Settings, get_settings
 
-settings: config.Settings = config.get_settings
+settings: Settings = get_settings()
 
 DB_URL = settings.api_db_url
 DB_NAME = settings.api_db_name
