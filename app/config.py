@@ -2,8 +2,6 @@ from pydantic import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
-    api_servers: list[str] = []
-
     api_root_path: str = ''
     api_http_port: int = 8888
     api_db_url: str = 'mongodb://root:example@localhost:27017/'
