@@ -1,11 +1,23 @@
-import os
+from pydantic import BaseSettings
+from functools import lru_cache
 
-root_path = os.environ.get('API_ROOT_PATH', '')
-http_port = int(os.environ.get('API_HTTP_PORT', '8888'))
-db_url = os.environ.get('API_DB_URL', 'mongodb://root:example@localhost:27017/')
-db_name = os.environ.get('API_DB_NAME', 'todo_service')
+class Settings(BaseSettings):
+    api_root_path: str = ''
+    api_http_port: int = 8888
+    api_db_url: str = 'mongodb://root:example@localhost:27017/'
+    api_db_name: str = 'todo_service'
 
-# to get a viable secret run:
-# openssl rand -hex 32
-secret_key = os.environ.get('API_SECRET_KEY', 'SECRET_REPLACE_ME')
-jwt_login_url = os.environ.get('API_LOGIN_URL', 'http://localhost:8001/jwt/token')
+    # auth settings
+    api_jwt_login_url: str = 'http://localhost:8001/jwt/token'
+    # to get a viable secret run:
+    # openssl rand -hex 32
+    api_secret_key: str = 'SECRET_REPLACE_ME'
+    api_jwt_algorithm: str = 'HS256'
+
+    class Config:
+        env_file = ".env"
+
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()
