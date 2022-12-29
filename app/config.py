@@ -4,7 +4,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     app_title: str = 'TODO microservice'
     app_name: str = 'todo'
-    
+
     api_root_path: str = ''
     api_http_port: int = 8888
     api_db_url: str = 'mongodb://root:example@localhost:27017/'
@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     # openssl rand -hex 32
     api_secret_key: str = 'SECRET_REPLACE_ME'
     api_jwt_algorithm: str = 'HS256'
+
+    class Config:
+        env_file = ".env"
 
 
 @lru_cache()
