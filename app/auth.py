@@ -12,18 +12,17 @@ from app.config import Settings, get_settings
 # auth scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=get_settings().api_login_url)
 
+# generate exteption to re-use
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail='Could not validate credentials',
+    headers={'WWW-Authenticate': 'Bearer'},
+)
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
     settings: Settings = Depends(get_settings),
 ):
-    # generate exteption to re-use
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail='Could not validate credentials',
-        headers={'WWW-Authenticate': 'Bearer'},
-    )
-
     # verify user credentials
     try:
         payload = jwt.decode(token, settings.api_secret_key, algorithms=[settings.api_jwt_algorithm])
@@ -67,5 +66,7 @@ async def get_current_user_data(
         if response.status_code == 200:
             user_data_str = response.read()
             return UserRead.parse_raw(user_data_str)
+        if response.status_code == 401:
+            raise credentials_exception
     
     raise Exception('Error while communicating with the auth server.')

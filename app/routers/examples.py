@@ -24,7 +24,7 @@ async def list_tasks():
 
 @router.get('/exception')
 async def list_tasks():
-    raise Exception('Intentional exception')
+    raise ValueError('Intentional exception')
 
     return 'Exception raised' # unreachable code
 
