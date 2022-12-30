@@ -28,9 +28,13 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-# user profiles router
+# tasks router
 from app.routers import tasks
 app.include_router(tasks.router)
+
+# examples router
+from app.routers import examples
+app.include_router(examples.router)
 
 
 @app.get('/', response_class=HTMLResponse)
