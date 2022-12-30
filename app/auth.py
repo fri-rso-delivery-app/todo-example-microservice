@@ -1,10 +1,11 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Header
 from fastapi.security import OAuth2PasswordBearer
 
 from jose import JWTError, jwt
 
 from app import config
 from app.models.jwt import *
+from app.models.users import *
 from app.config import Settings, get_settings
 
 
@@ -37,3 +38,34 @@ async def get_current_user(
     
     # finally (this part of the code should be unreachable)
     raise credentials_exception
+
+
+import httpx
+from opentelemetry.propagate import inject
+
+# get user data from the suth server
+async def get_current_user_data(
+    # ensure authorised
+    token: JWTokenData = Depends(get_current_user),
+    # to forward token
+    authorization: str | None = Header(default=None, include_in_schema=False),
+    # site settings
+    settings: Settings = Depends(get_settings),
+) -> UserRead:
+    # create headers
+    headers = { 'Authorization': authorization }
+
+    # inject trace info to header
+    inject(headers)
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            f'{settings.auth_server}/users/my_profile',
+            headers=headers,
+        )
+
+        if response.status_code == 200:
+            user_data_str = response.read()
+            return UserRead.parse_raw(user_data_str)
+    
+    raise Exception('Error while communicating with the auth server.')

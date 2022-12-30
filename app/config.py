@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     # trace
     api_trace_url: str = 'http://localhost:4317'
 
+    # other services
+    auth_server: str = 'http://auth:8080/'
+
     # auth settings
     api_login_url: str = 'http://localhost:8001/jwt/token'
     # to get a viable secret run:
