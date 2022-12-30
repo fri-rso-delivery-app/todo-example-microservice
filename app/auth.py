@@ -3,7 +3,6 @@ from fastapi.security import OAuth2PasswordBearer
 
 from jose import JWTError, jwt
 
-from app import config
 from app.models.jwt import *
 from app.models.users import *
 from app.config import Settings, get_settings
